@@ -27,20 +27,24 @@ public class MainActivity extends AppCompatActivity {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
+
         String url = "https://api.quran.sutanlab.id/surah";
 
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                response -> {
-                    Gson gson = new Gson();
-                    TypeToken<SurahListResponse> token = new TypeToken<SurahListResponse>() {};
-                    SurahListResponse surahs = gson.fromJson(response, token.getType());
-                    surahList.setAdapter(new SurahListAdapter(surahs.data));
-                    surahList.setLayoutManager(new LinearLayoutManager(this));
-                    Log.d("MainActivity", "Reponse parsed success");
-                }, error -> {
+        Response.Listener<String> responseListener = response -> {
+            Gson gson = new Gson();
+            TypeToken<SurahListResponse> token = new TypeToken<SurahListResponse>() {};
+            SurahListResponse surahs = gson.fromJson(response, token.getType());
+            surahList.setAdapter(new SurahListAdapter(surahs.data));
+            surahList.setLayoutManager(new LinearLayoutManager(this));
+            Log.d("MainActivity", "Reponse parsed success");
+        };
+
+        Response.ErrorListener errorListener = error -> {
             Log.d("MainActivity", "Error While requesting : " + error);
-        });
+        };
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, errorListener);
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
