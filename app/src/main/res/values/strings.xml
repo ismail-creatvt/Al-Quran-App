@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">QuranApp</string>
+    <string name="verses_count">%d VERSES</string>
+    <string name="verse_1">Verse %d</string>
 </resources>

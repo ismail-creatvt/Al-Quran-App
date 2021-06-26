@@ -6,14 +6,14 @@ import com.google.gson.annotations.SerializedName;
 public class SurahListResponse{
 
 	@SerializedName("code")
-	private int code;
+	public  int code;
 
 	@SerializedName("data")
 	public List<Surah> data;
 
 	@SerializedName("message")
-	private String message;
+	public  String message;
 
 	@SerializedName("status")
-	private String status;
+	public  String status;
 }

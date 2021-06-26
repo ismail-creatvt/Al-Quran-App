@@ -8,5 +8,5 @@ public class Transliteration{
 	public String en;
 
 	@SerializedName("id")
-	private String id;
+	public  String id;
 }

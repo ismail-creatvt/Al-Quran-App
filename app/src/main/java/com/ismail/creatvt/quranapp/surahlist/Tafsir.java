@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName;
 public class Tafsir{
 
 	@SerializedName("id")
-	private String id;
+	public  String id;
 }

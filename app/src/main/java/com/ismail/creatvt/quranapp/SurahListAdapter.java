@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ismail.creatvt.quranapp.surahlist.Surah;
@@ -14,10 +15,12 @@ import java.util.List;
 
 public class SurahListAdapter extends RecyclerView.Adapter<SurahListAdapter.SurahViewHolder> {
 
-    private List<Surah> data;
+    private final List<Surah> data;
+    private final OnSurahClickListener surahClickListener;
 
-    public SurahListAdapter(List<Surah> data) {
+    public SurahListAdapter(List<Surah> data, OnSurahClickListener surahClickListener) {
         this.data = data;
+        this.surahClickListener = surahClickListener;
     }
 
     @NonNull
@@ -35,8 +38,11 @@ public class SurahListAdapter extends RecyclerView.Adapter<SurahListAdapter.Sura
         holder.surahName.setText(surah.name.transliteration.en);
         holder.surahRevelation.setText(surah.revelation.en);
         holder.surahNumber.setText(String.valueOf(surah.number));
-        holder.surahVerses.setText(surah.numberOfVerses + " VERSES");
+        holder.surahVerses.setText(holder.itemView.getResources().getString(R.string.verses_count, surah.numberOfVerses));
         holder.surahArabic.setText(surah.name.jsonMemberLong);
+        holder.surahRoot.setOnClickListener((v)->{
+            surahClickListener.onSurahClick(data.get(holder.getAdapterPosition()));
+        });
     }
 
     @Override
@@ -47,9 +53,12 @@ public class SurahListAdapter extends RecyclerView.Adapter<SurahListAdapter.Sura
     public static class SurahViewHolder extends RecyclerView.ViewHolder {
 
         public TextView surahName, surahRevelation, surahNumber, surahVerses, surahArabic;
+        public ConstraintLayout surahRoot;
 
         public SurahViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            surahRoot = itemView.findViewById(R.id.surah_root);
             surahName = itemView.findViewById(R.id.surah_name);
             surahRevelation = itemView.findViewById(R.id.surah_revelation);
             surahNumber = itemView.findViewById(R.id.surah_number);
